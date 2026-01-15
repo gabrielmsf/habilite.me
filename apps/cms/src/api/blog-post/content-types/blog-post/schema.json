@@ -1,0 +1,64 @@
+{
+  "kind": "collectionType",
+  "collectionName": "blog_posts",
+  "info": {
+    "singularName": "blog-post",
+    "pluralName": "blog-posts",
+    "displayName": "Blog Post"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "titulo": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "titulo",
+      "required": true
+    },
+    "resumo": {
+      "type": "text",
+      "maxLength": 300
+    },
+    "conteudo": {
+      "type": "richtext",
+      "required": true
+    },
+    "imagem_capa": {
+      "type": "media",
+      "allowedTypes": ["images"]
+    },
+    "autor": {
+      "type": "string",
+      "default": "Equipe habilite.me"
+    },
+    "categoria": {
+      "type": "enumeration",
+      "enum": ["noticias", "dicas", "tutoriais", "carreira", "concursos", "tecnologia"]
+    },
+    "tags": {
+      "type": "json"
+    },
+    "tempo_leitura": {
+      "type": "integer"
+    },
+    "destaque": {
+      "type": "boolean",
+      "default": false
+    },
+    "cursos_relacionados": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::curso.curso"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "seo.seo"
+    }
+  }
+}

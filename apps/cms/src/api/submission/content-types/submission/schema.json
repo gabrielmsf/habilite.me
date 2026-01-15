@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "submissions",
+  "info": {
+    "singularName": "submission",
+    "pluralName": "submissions",
+    "displayName": "Submission"
+  },
+  "attributes": {
+    "nome_contato": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "telefone": {
+      "type": "string"
+    },
+    "nome_curso": {
+      "type": "string",
+      "required": true
+    },
+    "url_curso": {
+      "type": "string",
+      "required": true
+    },
+    "plataforma": {
+      "type": "string",
+      "required": true
+    },
+    "descricao": {
+      "type": "text"
+    },
+    "tipo_parceria": {
+      "type": "enumeration",
+      "enum": ["afiliacao", "divulgacao", "troca", "outro"]
+    },
+    "mensagem": {
+      "type": "text"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["novo", "em_analise", "aprovado", "rejeitado"],
+      "default": "novo"
+    }
+  }
+}

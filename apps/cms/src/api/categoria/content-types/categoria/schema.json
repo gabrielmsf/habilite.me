@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "categorias",
+  "info": {
+    "singularName": "categoria",
+    "pluralName": "categorias",
+    "displayName": "Categoria"
+  },
+  "attributes": {
+    "nome": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "nome",
+      "required": true
+    },
+    "descricao": {
+      "type": "text",
+      "maxLength": 500
+    },
+    "icone": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "cor": {
+      "type": "string"
+    },
+    "ordem": {
+      "type": "integer",
+      "default": 0
+    },
+    "ativa": {
+      "type": "boolean",
+      "default": true
+    },
+    "categoria_pai": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::categoria.categoria"
+    },
+    "cursos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::curso.curso",
+      "mappedBy": "categoria"
+    },
+    "imagem": {
+      "type": "media",
+      "allowedTypes": ["images"]
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "seo.seo"
+    }
+  }
+}

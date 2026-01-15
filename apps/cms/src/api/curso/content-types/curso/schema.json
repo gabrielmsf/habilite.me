@@ -1,0 +1,120 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cursos",
+  "info": {
+    "singularName": "curso",
+    "pluralName": "cursos",
+    "displayName": "Curso"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "titulo": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "titulo",
+      "required": true
+    },
+    "descricao": {
+      "type": "richtext"
+    },
+    "descricao_curta": {
+      "type": "text",
+      "maxLength": 300
+    },
+    "url_original": {
+      "type": "string",
+      "required": true
+    },
+    "url_afiliado": {
+      "type": "string"
+    },
+    "plataforma": {
+      "type": "enumeration",
+      "enum": ["udemy", "youtube", "hotmart", "eduzz", "govbr", "coursera", "alura", "outros"],
+      "required": true
+    },
+    "tipo": {
+      "type": "enumeration",
+      "enum": ["gratuito", "pago", "freemium"],
+      "default": "pago"
+    },
+    "preco": {
+      "type": "decimal",
+      "min": 0
+    },
+    "preco_original": {
+      "type": "decimal",
+      "min": 0
+    },
+    "instrutor": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "duracao_horas": {
+      "type": "decimal",
+      "min": 0
+    },
+    "num_aulas": {
+      "type": "integer",
+      "min": 0
+    },
+    "nivel": {
+      "type": "enumeration",
+      "enum": ["iniciante", "intermediario", "avancado", "todos"],
+      "default": "todos"
+    },
+    "idioma": {
+      "type": "string",
+      "default": "pt-BR"
+    },
+    "nota": {
+      "type": "decimal",
+      "min": 0,
+      "max": 5
+    },
+    "num_avaliacoes": {
+      "type": "integer",
+      "min": 0,
+      "default": 0
+    },
+    "tags": {
+      "type": "json"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["pendente", "aprovado", "rejeitado"],
+      "default": "pendente"
+    },
+    "destaque": {
+      "type": "boolean",
+      "default": false
+    },
+    "categoria": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::categoria.categoria",
+      "inversedBy": "cursos"
+    },
+    "imagem": {
+      "type": "media",
+      "allowedTypes": ["images"]
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review",
+      "mappedBy": "curso"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "seo.seo"
+    }
+  }
+}
