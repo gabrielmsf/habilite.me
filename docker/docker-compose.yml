@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: habilite-db
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+
+  strapi:
+    build:
+      context: ../
+      dockerfile: apps/cms/Dockerfile
+    container_name: habilite-strapi
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${DB_NAME}
+      DATABASE_USERNAME: ${DB_USER}
+      DATABASE_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      APP_KEYS: ${APP_KEYS}
+      NODE_ENV: production
+    volumes:
+      - strapi_uploads:/app/apps/cms/public/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "1337:1337"
+
+  web:
+    build:
+      context: ../
+      dockerfile: apps/web/Dockerfile
+    container_name: habilite-web
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    environment:
+      NEXT_PUBLIC_STRAPI_URL: http://strapi:1337
+      STRAPI_API_TOKEN: ${STRAPI_API_TOKEN}
+      NODE_ENV: production
+    depends_on:
+      - strapi
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
+  strapi_uploads:
